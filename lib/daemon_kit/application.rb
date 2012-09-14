@@ -123,7 +123,8 @@ module DaemonKit
         ObjectSpace.each_object(File) do |fp|
           next if fp.closed?
           next unless (fp.sync && fp.path[0..0] == "/")
-          next unless (fp.fcntl(Fcntl::F_GETFL) & append_flags) == append_flags
+          # Remove next condition due to JRuby issues
+          # next unless (fp.fcntl(Fcntl::F_GETFL) & append_flags) == append_flags
 
           begin
             a, b = fp.stat, File.stat(fp.path)
